@@ -4,13 +4,14 @@ import Input from '../components/Input'
 
 const StartGameScreen = props =>{
     const [enteredName, setenteredName] = useState('');
-    const [isAddMode, setIsAddMode] = useState(false);
+    const [confirm, setConfirm] = useState(false);
     const nameInputHandler = inputName =>{ 
         setenteredName(inputName);
-        console.log("Input name is : " + enteredName);
     };
+    const resetHandler=() => { setenteredName('');}
+    const confirmHandler = () =>{setConfirm(true);console.log("Input name is : " + enteredName);}
     return (
-       <Modal visible={isAddMode} animationType = "slide" >
+  //     <Modal visible={isAddMode} animationType = "slide" >
             <View style={styles.screen}>
                 <Image style={styles.image} source={require('./img/board-game.png')} />
                 <Text style={styles.title}>Player Name:</Text>
@@ -22,8 +23,8 @@ const StartGameScreen = props =>{
                         value = {enteredName}
                     />
                     <View style={styles.buttonContainer}>
-                        <Button style={styles.button} title="Reset" onPress={() => {} }/>
-                        <Button style={styles.button} title="Confirm" onPress={() => { }} />
+                        <Button style={styles.button} title="Reset" onPress={resetHandler}/>
+                        <Button style={styles.button} title="Confirm" onPress={confirmHandler} />
                     </View>
                 </View>
                 <View style={styles.startButton}>
@@ -34,7 +35,7 @@ const StartGameScreen = props =>{
                     />
                 </View>
             </View>
-        </Modal>
+   //     </Modal>
     );
 };
 const styles= StyleSheet.create({
