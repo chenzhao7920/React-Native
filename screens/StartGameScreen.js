@@ -10,6 +10,11 @@ const StartGameScreen = props =>{
     };
     const resetHandler=() => { setenteredName('');}
     const confirmHandler = () =>{setConfirm(true);console.log("Input name is : " + enteredName);}
+    const startHandler = () => {
+        if(confirm)
+            props.onboardMode(confirm);
+        setConfirm(false);
+    }
     return (
   //     <Modal visible={isAddMode} animationType = "slide" >
             <View style={styles.screen}>
@@ -31,7 +36,7 @@ const StartGameScreen = props =>{
                     <Button
                         title="START GAME"
                         color="white"
-                        onPress={() =>setIsAddMode(true)}
+                        onPress={startHandler}
                     />
                 </View>
             </View>
