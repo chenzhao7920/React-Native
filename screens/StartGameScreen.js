@@ -1,5 +1,5 @@
 import React, {useState} from 'react';
-import {View, Text,StyleSheet,Image,Button, Modal} from 'react-native';
+import {View, Text,StyleSheet,Image,Button, Modal,Alert} from 'react-native';
 import Input from '../components/Input'
 
 const StartGameScreen = props =>{
@@ -8,11 +8,19 @@ const StartGameScreen = props =>{
     const nameInputHandler = inputName =>{ 
         setenteredName(inputName);
     };
-    const resetHandler=() => { setenteredName('');}
+    const resetHandler=() => { 
+        setenteredName('');
+        setConfirm(false);
+    }
     const confirmHandler = () =>{setConfirm(true);console.log("Input name is : " + enteredName);}
     const startHandler = () => {
-        if(confirm)
+        if(confirm===false){
+            Alert.alert('Invalid', 'Need to Confirm Player Name', [{text:'Ok', style:'destructive',onPress:resetHandler}])
+        }
+        if(confirm){
             props.onboardMode(confirm);
+           
+        }
         setConfirm(false);
     }
     return (

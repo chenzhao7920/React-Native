@@ -2,7 +2,7 @@ import React, {useState}from 'react';
 import { StyleSheet, Text, View} from 'react-native';
 import Header from './components/Header';
 import StartGameScreen from './screens/StartGameScreen'
-import Board from './screens/Board'
+import Board from './screens/BoardScreen'
 export default function App() {
   const [isboardMode, setIsBoardMode] = useState(false);
   const onboardModeHandler = ()=> {setIsBoardMode(true)};
@@ -14,7 +14,7 @@ export default function App() {
          
     </View>
   );
-}
+} 
 
 const styles = StyleSheet.create({
   screen: {
