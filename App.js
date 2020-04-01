@@ -5,12 +5,15 @@ import StartGameScreen from './screens/StartGameScreen'
 import Board from './screens/BoardScreen'
 export default function App() {
   const [isboardMode, setIsBoardMode] = useState(false);
-  const onboardModeHandler = ()=> {setIsBoardMode(true)};
+  const onboardModeHandler = (mode)=> {setIsBoardMode(mode)};
+  const exitBoardHandler = (mode)=>{
+       setIsBoardMode(mode);
+   }
   return (
     <View style={styles.screen}>
       <Header title="Night Tour" />
         <StartGameScreen title= "Game Screen" onboardMode={onboardModeHandler} />
-        <Board visible={isboardMode} />
+        <Board visible={isboardMode} exitBoard = {exitBoardHandler}/>
          
     </View>
   );
