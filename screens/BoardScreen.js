@@ -1,46 +1,51 @@
 import React,{useState} from 'react';
-import {View, Text, StyleSheet,Modal,Button,TouchableOpacity} from 'react-native';
+import {View, Text, StyleSheet,Modal,Button,TouchableOpacity,FlatList} from 'react-native';
 import Header from '../components/Header';
 import Table from '../components/Table';
-
+import Square from '../components/Square';
 const Board = props => {
     console.log(props.visible)
     
     const [countStep, setCountStep] = useState(0);
     const [isWin, setIsWin] = useState(false);
     const [isClickAble, setIsClickAble] = useState(true);
-    const [laststep,setLastStep] = useState(-1);
+    const [pastStep,setpastStep] = useState([]);
     const [squares, setSquares] = useState([]);
     //set Square format
-    const Square = (num) => {
-        const sqStyle = {
-          width: 40,
-          height: 40, 
-          height: 40, 
-          margin:1,
-          backgroundColor: 'blue',
-        };   
-        return (
-            <TouchableOpacity onPress={onPress} key={num} >
-                <View style={sqStyle}    >
-                    <Text>{num}</Text>
-                </View>
-            </TouchableOpacity>
-        )
-    };
+    // const Square = (num) => {
+    //     const sqStyle = {
+    //       width: 40,
+    //       height: 40, 
+    //       height: 40, 
+    //       margin:1,
+    //       backgroundColor: 'blue',
+    //     };   
+    //     return (
+    //         <TouchableOpacity onPress={onPress} key={num} >
+    //             <View style={sqStyle}    >
+    //                 <Text>{num}</Text>
+    //             </View>
+    //         </TouchableOpacity>
+    //     )
+    // };
     //create board when Modal onShow , **** must use let ****
     const boardHandler=()=>{
-        for(let i = 0; i < 64 ;i++){     
-            setSquares(currentSquares => [...currentSquares, Square(i)]);
-        }     
+        for(let i = 0; i < 64 ;i++){ 
+            let idx = i;    
+            setSquares(currentSquares => [...currentSquares, {id:idx.toString(), value:i}]);
+        }
+        console.log(squares.length);     
     }
     const exitHandler = () =>{
         props.exitBoard(false);
         setSquares([]);
+        setpastStep([]);
     }
-    const onPress = () =>{
+    const onPressHandler = (itemId) =>{
         setCountStep(prevCount => prevCount + 1);
-        
+        console.log('click ' + itemId);
+        setpastStep(currentSteps =>[...currentSteps, itemId])
+        console.log('currentSteps ' + pastStep);
     } 
     return(
         <Modal visible={props.visible} animationType="slide"  onShow = {boardHandler} >
@@ -52,14 +57,27 @@ const Board = props => {
                 <View >
                     <Text style = {styles.counter}>Total Step: {countStep}</Text>
                 </View>          
-                <Table style={styles.board}>
+                {/* <Table style={styles.board}>
                     {squares.map(elem => elem)}
+                </Table> */}
+                <Table style={styles.board}>
+                <FlatList 
+                    horizontal = {false}
+                    numColumns = {8}
+                    data = {squares}
+                    keyExtractor = {(item,index)=>item.id}
+                    renderItem = {itemData =>
+                        <Square
+                            id = {itemData.item.id}
+                            onPress = {onPressHandler}
+                            title = {itemData.item.value}
+                        />
+                    }
+                />
                 </Table>
                 <View  style = {styles.button}>
                     <Button
                         title="PALY AGAIN"
-                        color="white"
-                        color="white"
                         color="white"
                         onPress={()=>{}}
                     />
