@@ -3,9 +3,8 @@ import {View, Text, StyleSheet,Modal,Button,TouchableOpacity,FlatList} from 'rea
 import Header from '../components/Header';
 import Table from '../components/Table';
 import Square from '../components/Square';
+
 const Board = props => {
-    console.log(props.visible)
-    
     const [countStep, setCountStep] = useState(0);
     const [isWin, setIsWin] = useState(false);
     const [isClickAble, setIsClickAble] = useState(true);
@@ -47,6 +46,103 @@ const Board = props => {
         setpastStep(currentSteps =>[...currentSteps, itemId])
         console.log('currentSteps ' + pastStep);
     } 
+    const giveOption = (id) =>{
+        var idx = parseInt(id);
+        var i = idx % 8; //col
+        var j = parseInt(idx / 8); //row
+        //possition 0
+        if ((i + 2) <= 7 && (j - 1) >= 0) {
+            var n0 = (i + 2) + (j - 1) * 8;
+            if (gezi[n0] !== "full") {
+                possible.push(n0);
+                gezi[n0] = "possible";
+                console.log("the possible button id n0 " + n0);
+            }
+        }
+        //possition 1
+        if ((i + 1) <= 7 && (j - 2) >= 0) {
+            var n1 = (i + 1) + (j - 2) * 8;
+            // possible.push(n2);
+            if (gezi[n1] !== "full") {
+                possible.push(n1);
+                gezi[n1] = "possible";
+                console.log("the possible button id n1 " + n1);
+            }
+        }
+        //possition 2
+        if ((i - 1) >= 0 && (j - 2) >= 0) {
+            var n2 = (i - 1) + (j - 2) * 8;
+            // possible.push(n2);
+            if (gezi[n2] !== "full") {
+                possible.push(n2);
+                gezi[n2] = "possible";
+                console.log("the possible button id n2 " + n2);
+            }
+
+        }
+        //possition 3
+        if ((i - 2) >= 0 && (j - 1) >= 0) {
+            var n3 = (i - 2) + (j - 1) * 8;
+            // possible.push();
+            if (gezi[n3] !== "full") {
+                possible.push(n3);
+                gezi[n3] = "possible";
+                console.log("the possible button id n3 " + n3);
+            }
+
+        }
+        //possition 4
+        if ((i - 2) >= 0 && (j + 1) <= 7) {
+            var n4 = (i - 2) + (j + 1) * 8;
+            // possible.push();
+            if (gezi[n4] !== "full") {
+                possible.push(n4);
+                gezi[n4] = "possible";
+                console.log("the possible button id n4 " + n4);
+            }
+        }
+        //possition 5
+        if ((i - 1) >= 0 && (j + 2) <= 7) {
+            var n5 = (i - 1) + (j + 2) * 8;
+            // possible.push();
+            if (gezi[n5] !== "full") {
+                possible.push(n5);
+                gezi[n5] = "possible";
+                console.log("the possible button id n5 " + n5);
+            }
+        }
+        //possition 6
+        if ((i + 1) <= 7 && (j + 2) <= 7) {
+            var n6 = (i + 1) + (j + 2) * 8;
+            // possible.push();
+            if (gezi[n6] !== "full") {
+                possible.push(n6);
+                gezi[n6] = "possible";
+                console.log("the possible button id n6 " + n6);
+            }
+        }
+        //possition 7
+        if ((i + 2) <= 7 && (j + 1) <= 7) {
+            var n7 = (i + 2) + (j + 1) * 8;
+            // possible.push();
+            if (gezi[n7] !== "full") {
+                possible.push(n7);
+                gezi[n7] = "possible";
+                console.log("the possible button id n7 " + n7);
+            }
+        }
+        console.log("after set knight the possible button.size is " + possible.length);
+        for (var i = 0; i < possible.length; i++) {
+            var id = possible[i];
+            $("#" + id).css("background", "#8de3a4");
+            console.log("the possible button id is " + id);
+        }
+        // for(var i = 0; i< gezi.length;i++){
+        //     console.log(gezi[i]);
+        // }
+        return possible.length;
+    }
+
     return(
         <Modal visible={props.visible} animationType="slide"  onShow = {boardHandler} >
             <Header title="Welcome to Knight's Tour"/>
