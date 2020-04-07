@@ -11,7 +11,8 @@ const Board = props => {
     const [squares, setSquares] = useState([]);
     const [selected, setSelected] = React.useState(new Map());
     const [gezi, setGezi] = useState([]);
-    const [possible, setPossibel] = useState([]);  
+    const [possible, setPossibel] = useState([]);
+    const [pastStep, setPastStep] = useState([]);
     //create board when Modal onShow , **** must use let ****
     const boardHandler=()=>{
         console.log("===========Welcome to Knight Tour==============")
@@ -28,20 +29,18 @@ const Board = props => {
         setSelected(new Map());
         setGezi([]);
         setPossibel([]);
+        setPastStep([]);
+        setIsClickAble(true);    
     }
 
     //add callbakc function to each square
     const onSelectHandler = (id)=>{
-            console.log("======Processing gezi " + id + " =========" );
-            if(!isClickAble) {
-            
-                console.log("Game Over")
+            if(isClickAble === false)
                 return;
-            }
+            console.log("======Processing gezi " + id + " =========" );
             //if game just start
             if(countStep === 0){
                 console.log('click ' + id);
-                console.log("Successful set gezi " + id + " to full");
                 setSquare(id);
                 const newSelected = new Map(selected);
                 newSelected.set(id, !selected.get(id));
@@ -50,28 +49,32 @@ const Board = props => {
                 giveOption(id);             
                 console.log("possible button id is " + possible);      
             }else{
-                if(gezi[id] !== 'possible'){ return; }
+                if(gezi[id] === 'full' || gezi[id] === 'empty'){ return; }
                 else {
                     //clear possible array and reset gezi state( except current one)
                     console.log("Right now the possible button size is " + possible.length);
                     for (var i = 0; i < possible.length; i++) {
                         var idx = possible[i];
-                        if (idx != id) {
-                            gezi[idx] = "empty";
-                            console.log("gezi " + idx + " is " + gezi[idx]);
-                        }
+                        gezi[idx] = "empty";
+                        console.log("gezi " + idx + " is " + gezi[idx]);  
                     }
                     possible.splice(0, possible.length);
                     console.log('click ' + id);
-                    console.log("Successful set gezi " + id + " to full");   
+                    
                     setSquare(id);
                     const newSelected = new Map(selected);
                     newSelected.set(id, !selected.get(id));
                     setSelected(newSelected);
                     setCountStep(prevCount => prevCount + 1);
-                    setIsClickAble(giveOption(id)>0 ? true: false);
-                    console.log("possible button id is " + possible);   
-                }  
+                    giveOption(id); 
+                    if(possible.length > 0) {
+                        console.log("possible button id is " + possible);  
+                    } else{
+                        console.log("Game Over  "    ) ;
+                        setIsClickAble(false);        
+                    } 
+                    return; 
+                }
             }
             return;    
     }
@@ -83,6 +86,8 @@ const Board = props => {
             return false;
         } else {
             gezi[idx] = "full";
+            setPastStep(currentSteps =>[...currentSteps, idx]);
+            console.log("Successful set gezi " + idx + " to full");   
             return true;
         }
     }
