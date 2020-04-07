@@ -19,7 +19,6 @@ const StartGameScreen = props =>{
         }
         if(confirm){
             props.onboardMode(confirm);
-           
         }
         setConfirm(false);
     }

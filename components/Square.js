@@ -4,12 +4,11 @@ const Square = (props) =>{
     //{...props} allow to add props
     //conbine local input style and overide by props.style 
     return (
-        <TouchableOpacity  onPress={props.onPress.bind(this,props.id)}     >
-            <View style={styles.sqStyle}  >
-                <Text>{props.title}</Text>
+        <TouchableOpacity  onPress={props.onSelect.bind(this,props.id)}     >
+            <View style={[styles.sqStyle,{backgroundColor: (props.selected? 'pink': (props.possible? 'green':'blue'))}]}  >
+                <Text>{props.id}</Text>
             </View>
         </TouchableOpacity>
-        
     )
 };
 

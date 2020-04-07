@@ -13,7 +13,7 @@ export default function App() {
     <View style={styles.screen}>
       <Header title="Night Tour" />
         <StartGameScreen title= "Game Screen" onboardMode={onboardModeHandler} />
-        <Board visible={isboardMode} exitBoard = {exitBoardHandler}/>
+        <Board visible={isboardMode} isBoardMode = {exitBoardHandler}/>
          
     </View>
   );
