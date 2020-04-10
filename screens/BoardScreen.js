@@ -1,5 +1,5 @@
 import React,{useState} from 'react';
-import {View, Text, StyleSheet,Modal,Button,TouchableOpacity,FlatList} from 'react-native';
+import {View, Text, StyleSheet,Modal,Button,FlatList,Alert,Image,TouchableOpacity} from 'react-native';
 import Header from '../components/Header';
 import Table from '../components/Table';
 import Square from '../components/Square';
@@ -13,6 +13,7 @@ const Board = props => {
     const [gezi, setGezi] = useState([]);
     const [possible, setPossibel] = useState([]);
     const [pastStep, setPastStep] = useState([]);
+ //   const [squareColor, setSquareColor] = useState('gray');
     //create board when Modal onShow , **** must use let ****
     const boardHandler=()=>{
         console.log("===========Welcome to Knight Tour==============")
@@ -46,10 +47,13 @@ const Board = props => {
                 newSelected.set(id, !selected.get(id));
                 setSelected(newSelected);
                 setCountStep(prevCount => prevCount + 1);
+                
                 giveOption(id);             
                 console.log("possible button id is " + possible);      
             }else{
-                if(gezi[id] === 'full' || gezi[id] === 'empty'){ return; }
+                if(gezi[id] === 'full' || gezi[id] === 'empty'){ 
+                    return; 
+                }
                 else {
                     //clear possible array and reset gezi state( except current one)
                     console.log("Right now the possible button size is " + possible.length);
@@ -66,10 +70,12 @@ const Board = props => {
                     newSelected.set(id, !selected.get(id));
                     setSelected(newSelected);
                     setCountStep(prevCount => prevCount + 1);
-                    giveOption(id); 
+                    giveOption(id);
+
                     if(possible.length > 0) {
                         console.log("possible button id is " + possible);  
                     } else{
+                        Alert.alert("Game Over!","Click \"Play Again\" to continue ",[{test:'Ok!', style:"cancel"}]);
                         console.log("Game Over  "    ) ;
                         setIsClickAble(false);        
                     } 
@@ -78,7 +84,20 @@ const Board = props => {
             }
             return;    
     }
-
+    //
+    const colorHealper =(id)=>{
+        console.log("initial square " + idx + " color");	
+        let idx = parseInt(props.id);
+        let i = idx % 8; //col
+        let j = parseInt(idx / 8); //row
+        if((i + j)%2 == 0) {
+            setSquareColor('white');	
+        }
+        else{
+            setSquareColor('gray'); 
+        }
+   
+     }
     //这个函数接受一个格子ID， 和颜色， 然后把gezi状态设为full
     function setSquare(id) {
         var idx = parseInt(id);
@@ -161,13 +180,12 @@ const Board = props => {
                 gezi[n7] = "possible";                
             }
         }
-         
         return possible.length;
     }
 
     return(
         <Modal visible={props.visible} animationType="slide"  onShow = {boardHandler} >
-            <Header title="Welcome to Knight's Tour"/>
+            <Header title = {props.title}/>
             <View style={styles.screen}>
                 <View style = {styles.exit}>
                     <Button style={styles.exitbutton} title="Exit" onPress={exitHandler}/>
@@ -191,21 +209,37 @@ const Board = props => {
                                 possible = {!!possible.includes(parseInt(itemData.item.id))}
                                 onSelect = {onSelectHandler}
                                 count = {countStep}
+                                
                             />
                         }
                     />
-                </Table>
-                <View  style = {styles.button}>
-                    <Button
-                        title="PALY AGAIN"
-                        color="white"
-                        onPress={()=>{
-                            exitHandler(); 
-                            props.isBoardMode(true);
-                            boardHandler();
-                        }}
-                    />
-                </View>               
+                </Table>                
+                <View style={styles.buttonContainer}>
+                    < TouchableOpacity onPress={()=>{ }}>
+                        <View style={styles.button}>
+                            <Image
+                                style={styles.icon}
+                                source={require('./img/sword.png')}
+                            />
+                        </View>
+                    </TouchableOpacity >
+                    < TouchableOpacity onPress={()=>{ exitHandler(); props.isBoardMode(true);boardHandler();}}>
+                        <View style={styles.button}>
+                            <Image
+                                style={styles.icon}
+                                source={require('./img/play.png')}
+                            />
+                        </View>
+                    </TouchableOpacity >
+                    < TouchableOpacity onPress={()=>{}}>
+                        <View style={styles.button}>
+                            <Image
+                                style={styles.icon}
+                                source={require('./img/message.png')}
+                            />
+                        </View>
+                    </TouchableOpacity >
+                </View>           
             </View>
         </Modal>
     );
@@ -216,33 +250,42 @@ const styles = StyleSheet.create({
         flex:1,  
         padding:10,
         alignItems: 'center',
-        
     },
     exit:{
         height:'5%',
         alignSelf:'flex-end',
+        fontFamily: 'open-sans',
     },
     counter:{
         fontSize:18,
-        marginVertical:15,  
+        marginVertical:'4%',  
+        fontFamily: 'open-sans',
     },
     board:{        
          width:380,
          height: 380,
          flexWrap: 'wrap', 
-         marginVertical:20,     
+         marginVertical:10,     
     },
     exitbutton:{
         width:100,
     },
-    button:{
-        marginVertical:20,
-        width:150,
-        height:50,
-        backgroundColor:'#37bced',
-        paddingVertical:7,
-        borderRadius:30,
-    } 
+    buttonContainer: {
+       flex:1,
+       flexDirection: 'row',
+       justifyContent: 'space-evenly',
+    },
+    button: {
+        flex:1,
+        width:100,
+        alignItems: 'center',
+        justifyContent: 'center',
+    },
+    icon:{  
+        width:55,
+        height:55,
+    }
+    
 });
 
 export default Board;
