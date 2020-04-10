@@ -19,11 +19,10 @@ const Square = (props) =>{
     //         setSquareColor('white'); 
     //         console.log("set square " + idx + " to white");	
     //     }
-   
     //  }
     return (
         <TouchableOpacity  onPress={props.onSelect.bind(this,props.id)}  >
-            <View  style={[styles.sqStyle,{backgroundColor: (props.selected? 'pink': (props.possible? 'green':'blue'))}]}  >
+            <View  style={[styles.sqStyle,{backgroundColor: (props.selected? '#1BA1E5': (props.possible? '#FEABB8':'#A9F7C3'))}]}  >
                 <Text>{props.id}</Text>
             </View>
         </TouchableOpacity>

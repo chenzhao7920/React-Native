@@ -102,7 +102,7 @@ const styles = StyleSheet.create({
         marginTop:20,
         paddingTop:10,
         paddingBottom:10,
-        backgroundColor:'#1E6738',
+        backgroundColor:'#4BBCE7',
         borderRadius:30,
         borderWidth: 1,
         borderColor: '#fff'
@@ -111,7 +111,9 @@ const styles = StyleSheet.create({
           color:'#fff',
           textAlign:'center',
           paddingLeft : 10,
-          paddingRight : 10
+          paddingRight : 10,
+          fontFamily: 'open-sans',
+          fontSize:18,
       }
 });
 
