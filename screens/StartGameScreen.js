@@ -5,6 +5,7 @@ import Input from '../components/Input'
 const StartGameScreen = props => {
     const [enteredName, setenteredName] = useState('');
     const [confirm, setConfirm] = useState(false);
+
     const nameInputHandler = inputName => {
         setenteredName(inputName);
     };
@@ -12,7 +13,6 @@ const StartGameScreen = props => {
         setenteredName('');
         setConfirm(false);
     }
-
     const confirmHandler = () => { setConfirm(true); console.log("Input name is : " + enteredName); }
 
     const startHandler = () => {

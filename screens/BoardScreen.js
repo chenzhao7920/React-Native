@@ -1,4 +1,4 @@
-import React,{useState} from 'react';
+import React,{useState,useEffect} from 'react';
 import {View, Text, StyleSheet,Modal,Button,FlatList,Alert,Image,TouchableOpacity} from 'react-native';
 import Header from '../components/Header';
 import Table from '../components/Table';
@@ -6,14 +6,14 @@ import Square from '../components/Square';
 
 const Board = props => {
     const [countStep, setCountStep] = useState(0);
-    const [isWin, setIsWin] = useState(false);
     const [isClickAble, setIsClickAble] = useState(true); 
     const [squares, setSquares] = useState([]);
     const [selected, setSelected] = React.useState(new Map());
     const [gezi, setGezi] = useState([]);
     const [possible, setPossibel] = useState([]);
     const [pastStep, setPastStep] = useState([]);
- //   const [squareColor, setSquareColor] = useState('gray');
+  
+     
     //create board when Modal onShow , **** must use let ****
     const boardHandler=()=>{
         console.log("===========Welcome to Knight Tour==============")
@@ -22,6 +22,7 @@ const Board = props => {
             setSquares(currentSquares => [...currentSquares, {id:idx.toString(), value:i}]);
             setGezi(currentGezi => [...currentGezi, "empty"]);
         }
+        props.isMessageMode(false);
     }
     const exitHandler = () =>{
         props.isBoardMode(false);
@@ -84,20 +85,7 @@ const Board = props => {
             }
             return;    
     }
-    //
-    const colorHealper =(id)=>{
-        console.log("initial square " + idx + " color");	
-        let idx = parseInt(props.id);
-        let i = idx % 8; //col
-        let j = parseInt(idx / 8); //row
-        if((i + j)%2 == 0) {
-            setSquareColor('white');	
-        }
-        else{
-            setSquareColor('gray'); 
-        }
-   
-     }
+     
     //这个函数接受一个格子ID， 和颜色， 然后把gezi状态设为full
     function setSquare(id) {
         var idx = parseInt(id);
@@ -201,15 +189,13 @@ const Board = props => {
                         keyExtractor={(item, index) => item.id}
                         extraData={[selected, possible,countStep]} //make sure FlatList itself will re-render when the state changes
                         renderItem={itemData =>
-                     
                             <Square
                                 id={itemData.item.id}
                                 title={itemData.item.value}
                                 selected = {!!selected.get(itemData.item.id)}
                                 possible = {!!possible.includes(parseInt(itemData.item.id))}
                                 onSelect = {onSelectHandler}
-                                count = {countStep}
-                                
+                                count = {countStep}  
                             />
                         }
                     />
@@ -231,7 +217,7 @@ const Board = props => {
                             />
                         </View>
                     </TouchableOpacity >
-                    < TouchableOpacity onPress={()=>{}}>
+                    < TouchableOpacity onPress={()=>{props.isBoardMode(false);props.isMessageMode(true)}}>
                         <View style={styles.button}>
                             <Image
                                 style={styles.icon}

@@ -5,6 +5,8 @@ import StartGameScreen from './screens/StartGameScreen';
 import Board from './screens/BoardScreen';
 import * as Font from 'expo-font';
 import {AppLoading} from 'expo';
+import MessageScreen from './screens/MessageScreen';
+
 //return the fetched fonts to main program
 const fetchFonts = () => {
   return Font.loadAsync({
@@ -15,7 +17,7 @@ const fetchFonts = () => {
 export default function App() {
   const [isboardMode, setIsBoardMode] = useState(false);
   const [dataloaded, setDataloaded] = useState(false);
-  
+  const [isMessageMode, setMessageMode] = useState(false);
   //Make sure fetchFonts before everything else happen.
   if(!dataloaded){
     //startAsync accept a function and this function must return a promise
@@ -31,13 +33,24 @@ export default function App() {
   }
   //transefer state of "isboardMode". 
   const onboardModeHandler = (mode)=> {setIsBoardMode(mode)};
+  
+  const onMessageModeHandler = (mode) =>{setMessageMode(mode)};
+
+  let content = <StartGameScreen  onboardMode={onboardModeHandler} />
+  
+  if (isboardMode == true && isMessageMode == false) {
+      content = <Board title="Welcome to Knight's Tour" visible={isboardMode} isBoardMode={onboardModeHandler} isMessageMode={onMessageModeHandler} />
+  }else if (isMessageMode == true){
+      content = <MessageScreen /> 
+  }
 
   return (
     <View style={styles.screen}>
         <Header title="Knight's Tour" />
-        <StartGameScreen  onboardMode={onboardModeHandler} />
-        <Board title="Welcome to Knight's Tour" visible={isboardMode} isBoardMode = {onboardModeHandler}/>
-         
+        {content}
+        {/* <StartGameScreen  onboardMode={onboardModeHandler} />
+        <Board title="Welcome to Knight's Tour" visible={isboardMode} isBoardMode = {onboardModeHandler} isMessageMode = {onMessageModeHandler}/>
+        <MessageScreen    />  */}
     </View>
   );
 } 
