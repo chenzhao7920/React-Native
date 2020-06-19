@@ -5,7 +5,7 @@ import StartGameScreen from './screens/StartGameScreen';
 import Board from './screens/BoardScreen';
 import * as Font from 'expo-font';
 import {AppLoading} from 'expo';
-import MessageScreen from './screens/MessageScreen';
+import IntroMsgScreen from './screens/IntroMsgScreen';
 
 //return the fetched fonts to main program
 const fetchFonts = () => {
@@ -41,7 +41,7 @@ export default function App() {
   if (isboardMode == true && isMessageMode == false) {
       content = <Board title="Welcome to Knight's Tour" visible={isboardMode} isBoardMode={onboardModeHandler} isMessageMode={onMessageModeHandler} />
   }else if (isMessageMode == true){
-      content = <MessageScreen /> 
+      content = <IntroMsgScreen title="Game Rules" visible={isMessageMode} isBoardMode={onboardModeHandler} isMessageMode={onMessageModeHandler}/> 
   }
 
   return (

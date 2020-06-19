@@ -1,41 +1,35 @@
-import React ,{useState} from 'react';
-import {Text,StyleSheet,View,TouchableOpacity} from 'react-native';
+import React, { useState } from 'react';
+import { Text, StyleSheet, View, TouchableOpacity } from 'react-native';
 
-const Square = (props) =>{
-    // const[squareColor, setSquareColor] = useState('gray');
-    // //{...props} allow to add props
-    // //conbine local input style and overide by props.style 
-     
-    // const colerHealper = ()=>{
-    //     console.log("set square " + idx + " to white");	
-    //     let idx = parseInt(props.id);
-    //     let i = idx % 8; //col
-    //     let j = parseInt(idx / 8); //row
-    //     if((i + j)%2 == 0) {
-    //         setSquareColor('white');	
-             
-    //     }
-    //     else{
-    //         setSquareColor('white'); 
-    //         console.log("set square " + idx + " to white");	
-    //     }
-    //  }
+const Square = (props) => {
+    if(props.selected) 
+
     return (
-        <TouchableOpacity  onPress={props.onSelect.bind(this,props.id)}  >
-            <View  style={[styles.sqStyle,{backgroundColor: (props.selected? '#1BA1E5': (props.possible? '#FEABB8':'#A9F7C3'))}]}  >
-                <Text>{props.id}</Text>
+        <TouchableOpacity onPress={props.onSelect.bind(this, props.id)}  >
+            {/* #96d0f2 blue  ; #f428f7 pink ;#A9F7C3 green*/}
+            <View style={[styles.sqStyle, { backgroundColor: (props.selected ? '#d925db' : (props.possible ? '#99f79b' : '#96d0f2')) }]}  >
+                 <Text>{props.count}</Text>
             </View>
         </TouchableOpacity>
     )
+    else return(
+        <TouchableOpacity onPress={props.onSelect.bind(this, props.id)}  >
+            {/* #96d0f2 blue  ; #f428f7 pink ;#A9F7C3 green*/}
+            <View style={[styles.sqStyle, { backgroundColor: (props.selected ? '#d925db' : (props.possible ? '#99f79b' : '#96d0f2')) }]}  >
+                 
+            </View>
+        </TouchableOpacity>
+    )
+
 };
 
 const styles = StyleSheet.create({
-    sqStyle : {
+    sqStyle: {
         width: 40,
-        height: 40, 
-        height: 40, 
-        margin:1,
+        height: 40,
+        height: 40,
+        margin: 1,
         backgroundColor: 'blue',
-   }
+    }
 });
-export default  Square;
+export default Square;
